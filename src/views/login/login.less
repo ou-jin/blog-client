@@ -1,0 +1,44 @@
+.login_wrapper{
+    .left_img{
+        height: 100%;
+        width: 70%;
+    }
+    .login_box{
+        height: 100%;
+        width: 30%;
+        position: relative;
+        label{
+            width: 60px;
+        }
+        .icon_wrapper{
+            margin-bottom: 85px;
+            font-size: 45px;
+            transform:rotate(55deg);
+        }
+        .ant-input{
+            width: 300px;
+            border-radius: 5px;
+            height: 32px;
+        }
+        .ant-btn{
+            width: 100%;
+            margin-top: 30px;
+            height: 40px;
+        }
+    }
+    .rotate { 
+        animation-name: rotate; 
+        animation-duration:5s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: both;
+        animation-iteration-count:infinite;
+        animation-direction:alternate;
+     }
+    @keyframes rotate {
+        0% { transform:rotate(85deg); } 
+        // 10% { transform:rotate(25deg); } 
+        // 50% { margin-bottom: 55px; } 
+        // 60% { transform:rotate(-25deg); }
+        100% {transform:rotate(-85deg); }  
+   } 
+}
