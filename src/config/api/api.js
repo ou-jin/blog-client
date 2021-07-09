@@ -3,5 +3,7 @@ let config = {
     wordlist: { url: 'word/get', method: 'post' },
     wordadd: { url: 'word/add', method: 'post' },
     wordupdata: { url: 'word/updata', method: 'post' },
+
+    uploadImg:{ url: 'upload/uploadImg', method: 'post' },
 }
 export default config

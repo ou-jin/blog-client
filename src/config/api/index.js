@@ -7,7 +7,7 @@ const createApiInstance = (option) => {
   return axios.create({
     method: option.method,
     // eslint-disable-next-line no-undef
-    baseURL: process.env.NODE_ENV === 'development' ? window.DEV_JSON_HOST : window.JSON_HOST,
+    baseURL: process.env.NODE_ENV === 'development' ? process.env.API_HOST : process.env.API_HOST,
     headers: {
       'X-Requested-With': 'XMLHttpRequest',
       'Content-Type': 'application/json;charset=UTF-8',

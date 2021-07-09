@@ -25,24 +25,24 @@ export default function SideMeau() {
         console.log('test')
     }
 
-    const blogRef = useRef()
+    // const blogRef = useRef()
 
-    const testRef = useRef()
+    // const testRef = useRef()
     
     useEffect(() => {
-        console.log('blogRef useEffect', blogRef)
-        console.log('testRef',testRef)
+        // console.log('blogRef useEffect', blogRef)
+        // console.log('testRef',testRef)
     }, []);
 
     return <div>
-        <div className='side_top row-center' ref={testRef}>
+        <div className='side_top row-center'  >
             {/* <FrownTwoTone /> */}
             <Icon style={{ fontSize: '26px'}} component={AnimalSvg} />
         </div>
-        <Menu onClick={herf} mode="inline" onContextmenu={openMenu}>
-            <SubMenu title="blod" icon={<FileWordOutlined />} onContextmenu={openMenu} onClick={test} ref={blogRef}>
-                <Menu.Item>React</Menu.Item>
-                <Menu.Item>Vue</Menu.Item>
+        <Menu onClick={herf} mode="inline" onContextMenu={openMenu}>
+            <SubMenu title="blod" key='blod' icon={<FileWordOutlined />} onContextMenu={openMenu} onClick={test}  >
+                <Menu.Item key='React'>React</Menu.Item>
+                <Menu.Item key='Vue'>Vue</Menu.Item>
                 {/* <SubMenu title="">
                     <Menu.Item>子菜单项</Menu.Item>
                 </SubMenu> */}

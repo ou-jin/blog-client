@@ -3,6 +3,7 @@ const { merge } = require('webpack-merge');
 const common = require('./webpack.common.js');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 module.exports = merge(common, {
+    mode:'production',
     optimization: {
         moduleIds: 'deterministic',
         splitChunks: {
@@ -19,5 +20,8 @@ module.exports = merge(common, {
     },
     plugins: [
         new CleanWebpackPlugin(['dist']),
+        new webpack.DefinePlugin({
+            'process.env': require('../config/prod.env')
+          }),
     ],
 })

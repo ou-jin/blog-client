@@ -8,6 +8,7 @@ const { Header, Sider, Content } = Layout;
 import SideMeau from "./sideMeau";
 import "./main.less"
 import Article from '../article/article.js'
+import Write from '../write/write';
  
 
 export default function Main() {
@@ -17,8 +18,10 @@ export default function Main() {
             <Header>
                 <Head/>
             </Header>
-            <Content>
+            <Content style={{ padding: 15 }}>
                 <Route path="/main/article"   component={Article}></Route>
+                <Route path="/main/write"   component={Write}></Route>
+                
             </Content>
         </Layout>
     </Layout>
