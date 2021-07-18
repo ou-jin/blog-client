@@ -36,7 +36,7 @@ const sendApiInstance = (option) => {
       // 将接口返回的token更新到本地
       if (response.data.token) localStorage.setItem('JSON_TOKEN', response.data.token)
     //   return Promise.resolve(response.data)
-      if (response.data && response.data.code === 200) {
+      if (response.data && response.data.status === 200) {
         return Promise.resolve(response.data)
       } else {
         // ElMessage.error(response.data.msg)

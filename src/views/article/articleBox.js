@@ -5,10 +5,15 @@ import { LikeTwoTone ,EyeTwoTone} from '@ant-design/icons';
 export default class ArticleBox extends React.Component{
     constructor(props){
         super(props)
+        this.likeAdd = async(obj)=>{
+            const params = {...props.obj}
+            params.likeCount++
+            this.props.set(params)
+        }
     }
     render(){
         let typeDom = []
-        if(this.props.obj.type.length)typeDom = this.props.obj.type.map((x,i)=><Tag color={tagColors[i%tagColors.length]} key={x}>{x}</Tag>)
+        if(this.props.obj.type)typeDom = this.props.obj.type.split(',').map((x,i)=><Tag color={tagColors[i%tagColors.length]} key={x}>{x}</Tag>)
         
         const LikeDom = function(props){
             return (
@@ -27,7 +32,7 @@ export default class ArticleBox extends React.Component{
                     <div className='row row-space-between'> 
                     <span className='info_color'>
                     <EyeTwoTone  twoToneColor="#c5c5c5" />:<span className='mr10'>{this.props.obj.readCount}</span>
-                    <LikeTwoTone twoToneColor="#c5c5c5" />:{this.props.obj.likeCount}
+                    <LikeTwoTone twoToneColor="#c5c5c5" onClick={this.likeAdd} />:{this.props.obj.likeCount}
                     </span>
 
                     <span>
