@@ -9,29 +9,27 @@ import { useRef, useEffect } from 'react'
 const { SubMenu } = Menu;
 import Icon from '@ant-design/icons';
 import AnimalSvg from '../../assets/sprite/animal.svg'
-export default function SideMeau() {
+import { connect } from 'react-redux'
+ function SideMeau(props) {
+    
     const history = useHistory();
     
     const herf = (url) => {
-        // console.log('url',url)
-        // history.push('/main/' + url.key)
+        const {key,keyPath} = url;
+        const pagePath = keyPath[keyPath.length - 1]
+        if(keyPath.length>1){
+            props.setCurrentBlodType(key)
+        }
+        history.push('/main/' + pagePath)
     }
 
     const openMenu = () => {
         console.log('openMenu')
+        event.preventDefault()
     }
-
-    const test = ()=>{
-        console.log('test')
-    }
-
-    // const blogRef = useRef()
-
-    // const testRef = useRef()
     
     useEffect(() => {
-        // console.log('blogRef useEffect', blogRef)
-        // console.log('testRef',testRef)
+        console.log(props)
     }, []);
 
     return <div>
@@ -39,10 +37,10 @@ export default function SideMeau() {
             {/* <FrownTwoTone /> */}
             <Icon style={{ fontSize: '26px'}} component={AnimalSvg} />
         </div>
-        <Menu onClick={herf} mode="inline" onContextMenu={openMenu}>
-            <SubMenu title="blod" key='blod' icon={<FileWordOutlined />} onContextMenu={openMenu} onClick={test}  >
-                <Menu.Item key='React'>React</Menu.Item>
-                <Menu.Item key='Vue'>Vue</Menu.Item>
+        <Menu onClick={herf} mode="inline"  >
+            <SubMenu title="blog" key='article' icon={<FileWordOutlined />} onContextMenu={openMenu}    >
+                <Menu.Item key='react'>React</Menu.Item>
+                <Menu.Item key='vue'>Vue</Menu.Item>
                 {/* <SubMenu title="">
                     <Menu.Item>子菜单项</Menu.Item>
                 </SubMenu> */}
@@ -51,3 +49,14 @@ export default function SideMeau() {
         </Menu>
     </div>
 }
+const mapStateToProps = (state) => {
+    return {
+        user: state.user
+    }
+  }
+const mapDispatchToProps  = (dispatch, ownProps) => {
+    return  {
+       setCurrentBlodType :(v)=>dispatch({type:'SET_CURRENTBLODTYPE',value:v})
+    }
+  }
+export default connect(null,mapDispatchToProps)(SideMeau)
