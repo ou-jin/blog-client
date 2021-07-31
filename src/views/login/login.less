@@ -1,44 +1,120 @@
-.login_wrapper{
-    .left_img{
+.login_wrapper {
+    .left_img {
         height: 100%;
         width: 70%;
+        position: relative;
+        overflow: hidden;
+
+        .humen_position {
+            position: absolute;
+            bottom: 0px;
+            left: 50%;
+            transform: translate(-50%);
+            transform-origin: bottom;
+        }
+
+        ._balloon(@i) when(@i >0) {
+            .balloon@{i} {
+                position: absolute;
+                bottom: 180px;
+                left: 50%;
+                transform: translate(-22px) rotate((@i * 10deg));
+                transform-origin: bottom;
+            }
+
+            ._balloon((@i - 1));
+        }
+
+        ._balloon(6)
     }
-    .login_box{
+
+    .login_box {
         height: 100%;
         width: 30%;
         position: relative;
-        label{
+        label {
             width: 60px;
         }
-        .icon_wrapper{
+        .icon_wrapper {
             margin-bottom: 85px;
             font-size: 45px;
-            transform:rotate(55deg);
         }
-        .ant-input{
+        .ant-input {
             width: 300px;
             border-radius: 5px;
             height: 32px;
         }
-        .ant-btn{
+        .ant-btn {
             width: 100%;
             margin-top: 30px;
             height: 40px;
         }
     }
-    .rotate { 
-        animation-name: rotate; 
-        animation-duration:5s;
+
+    .rotate {
+        animation-name: rotate;
+        animation-duration: 1s;
         animation-timing-function: ease-in-out;
         animation-fill-mode: both;
-        animation-iteration-count:infinite;
-        animation-direction:alternate;
-     }
+        // animation-iteration-count: infinite;
+        animation-direction: normal;
+    }
+
     @keyframes rotate {
-        0% { transform:rotate(85deg); } 
-        // 10% { transform:rotate(25deg); } 
-        // 50% { margin-bottom: 55px; } 
-        // 60% { transform:rotate(-25deg); }
-        100% {transform:rotate(-85deg); }  
-   } 
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(55deg);
+        }
+    }
+
+    .fall_down {
+        @keyframes fall_move {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(-90deg);
+            }
+
+        }
+        animation-name: fall_move;
+        animation-duration: 3s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: both;
+        animation-iteration-count: 1;
+        animation-direction: alternate;
+    }
+
+    ._rise(@i) when(@i > 0) {
+        .rise@{i} {
+            @name: ~`'risemove-@{i}'`;
+            @val: ~`Math.round(Math.random())*@{i}*10`;
+            @keyframes @name {
+                0% {
+                    bottom: 180px;
+                }
+                100% {
+                    bottom: (@val+50vh);
+                    left: (@val+50vh);
+                    transform: rotate((@i * 10deg));
+                    opacity: 0;
+                }
+            }
+
+            ;
+            animation-name: @name;
+            animation-duration: 5s;
+            animation-timing-function: ease-in-out;
+            animation-fill-mode: both;
+            animation-iteration-count: 1;
+            animation-direction: normal;
+        }
+
+        ._rise((@i - 1));
+    }
+
+    ._rise(6)
 }

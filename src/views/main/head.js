@@ -19,12 +19,12 @@ export default function Head() {
         </Menu>
     );
 
-    const [user, setUser] = useState({name:123})
+    const [user, setUser] = useState({})
 
     useEffect(() => {
-        // setUser(JSON.parse(localStorage.getItem('user')))
+        setUser(JSON.parse(localStorage.getItem('user')||'{}'))
     }, [])
-
+    
     return (
         <div className='row-flex-end head_box'>
         <Dropdown overlay={menu}  >
