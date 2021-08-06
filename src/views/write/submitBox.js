@@ -7,7 +7,7 @@ export default class SubmitBox extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        typeOtion:["react", "vue", "webpack", "js", "html"],
+      typeOtion:[],
       selected: [],
       inputVal: "",
       inputVisible: false,
@@ -35,6 +35,10 @@ export default class SubmitBox extends React.Component {
         this.setState({ inputVisible: false });
       });
     };
+  }
+  componentDidMount(){
+    const user = JSON.parse(localStorage.getItem('user'))
+    this.setState({typeOtion:user.type.split(',').slice(1)})
   }
   render() {
     const categoryOption = [
@@ -85,7 +89,7 @@ export default class SubmitBox extends React.Component {
               </Tag>
             )}
 
-            <Card title="选择已有分类" bordered={false} style={{ width: 400 }}>
+            <Card title="选择已有分类" bordered={false} style={{ width: 550 }}>
               <Checkbox.Group
                 options={typeOtion}
                 onChange={this.typeSelect}

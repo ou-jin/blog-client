@@ -20,6 +20,7 @@ let blogType= ''
         }
         this.edit = (article,e)=>{
             e.stopPropagation()
+            // 全局保存当前博客记录
             this.props.setArticle(article)
             props.history.push('./write')
         }
@@ -28,7 +29,11 @@ let blogType= ''
             props.history.push('./write')
         }
         this.articleClick =async (article)=>{
-            this.props.setArticle(article)
+            // 更新阅读次数
+            const params = {...article}
+            params.readCount++
+            await api.articleSet({data:params})
+            this.props.setArticle(params)
             props.history.push('./read')
         }
       

@@ -17,15 +17,14 @@ const mdParser = new MarkdownIt();
              readOnly:true
          }
          this.init = async ()=>{
-             const url = fileServer+'md/'+this.props.article.uid+'.md'
+             const url = fileServer+'/file/md/'+this.props.article.uid+'.md'
              let d = await axios.get(url)
              this.setState({content:d.data},()=>{
                 const codeDom = document.getElementById('contentBox').querySelectorAll('code')
+                if(!codeDom)return
                 codeDom.forEach(el => {
-                    // then highlight each
                     hljs.highlightElement(el);
                 });
-                console.log(document.getElementById('contentBox'))
              })
          }
          }
@@ -41,7 +40,7 @@ const mdParser = new MarkdownIt();
                        <div className='title_row'>{this.props.article.title}</div>
                        {/* dangerouslySetInnerHTML={{__html: mdParser.render(this.state.content)}} */}
                        <div className='content_box' id='contentBox'  >
-                         <div className='custom-html-style' dangerouslySetInnerHTML={{__html: mdParser.render(this.state.content)}}></div>
+                         <div className='custom-html-style' dangerouslySetInnerHTML={{__html: mdParser.render(this.state.content+'')}}></div>
                        </div>
                    </div>
                    {/* <div className='right_banner'></div> */}

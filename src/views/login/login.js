@@ -1,32 +1,64 @@
 
-import { Form, Input, Button } from 'antd';
-import { UserOutlined, LockOutlined ,ExperimentTwoTone } from '@ant-design/icons';
+import { Form, Input, Button, message } from 'antd';
+import { UserOutlined, LockOutlined ,SmileOutlined } from '@ant-design/icons';
 import api from '../../config/api/index.js'
-import { useState,useEffect } from "react";
+import { useState,useEffect,useRef } from "react";
 import "./login.less"
 import { useHistory } from 'react-router';
 import SvgIcon from '../../component/common/svgIcon.js';
-import { connect } from 'react-redux'
+import { connect, useStore } from 'react-redux'
+import {uuid} from '../../config/common/fcn'
+import LoginForm from './LoginForm'
+import RegisterForm from './RegisterForm.js';
 function Login(props) {
    const history = useHistory()
    const [user] = useState({
       account:'',
       passWord:''
    })
-   const [loginClick, setLoginClick]  = useState(false)
-   const onFinish = async (values) => {
+   const [register,setRegister] = useState({
+      account:'',
+      name:'',
+      passWord:''
+   }) 
+
+   const registerForm = useRef()
+   // 是否点击登录
+   const [loginClick, setLoginClick]  = useState(false);
+   // 是否是注册状态
+   const [isRegister,setIsRegister] = useState(false);
+   // 登录提交
+   const login = async (values) => {
       setLoginClick(true)
       let d = await api.login({data:values})
       setLoginClick(false)
       if(!d)return
       props.setStoreUser(d.data)
-      history.push('/main')
+      history.push('/main/center')
    };
+   // 注册提交
+   const registerSub = async (val)=>{
+      const params = {...val}
+      console.log(params)
+      let d = await api.regist({data:params})
+      if(!d)return
+      message.success(d.msg)
+      setIsRegister(false)
+      // registerForm.current.resetFields();
+   }
+   // 游客登录
+   const visitorLogin =async ()=>{
+      let d = await api.visitorLogin()
+      if(!d)return
+      props.setStoreUser(d.data)
+      history.push('/main/center')
+   }
    useEffect(()=>{
       console.log(props)
    },[])
    //  气球dom
    const Balloon = [1,2,3,4,5,6].map(x=><SvgIcon icon={'balloon'+x} size={100} key={x} className={'rise'+x+' '+'balloon'+x }  />)
+
    return (
       <div className='content login_wrapper row-flex-start '>
          <div className='left_img '>
@@ -35,41 +67,18 @@ function Login(props) {
          </div>
          <div className='login_box column-center'>
          <SvgIcon icon='hippo' size={45} className={'icon_wrapper'+' '+(loginClick?'rotate':'')}></SvgIcon>
-            <Form
-               name="normal_login"
-               className="login-form"
-               initialValues={{ remember: true }}
-               onFinish={onFinish}
-            >
-               <Form.Item
-                  name="account"
-                  rules={[{ required: true, message: 'Please input your Username!' }]}
-               >
-                  <Input prefix={<UserOutlined className="site-form-item-icon" />} 
-                        placeholder="用户名" 
-                        value={user.account}
-                        />
-               </Form.Item>
-               <Form.Item
-                  name="password"
-                  rules={[{ required: true, message: 'Please input your Password!' }]}
-               >
-                  <Input
-                     prefix={<LockOutlined className="site-form-item-icon" />}
-                     value={user.passWord}
-                     type="password"
-                     placeholder="密码"
-                  />
-               </Form.Item>
-               <Form.Item>
-                  <Button type="primary" htmlType="submit" className="login-form-button">
-                     登录
-                  </Button>
-               </Form.Item>
-            </Form>
-         <div> 
-            <span className='mr10 p_c underline'>游客登陆</span>
-            <span className='p_c underline'>立即注册</span>
+            {!isRegister&&<LoginForm user={user}  login={(v)=>(login(v))} />}
+            {isRegister&&<RegisterForm register={register} registerForm={registerForm} registerSub={(v)=>{registerSub(v)}} />}
+
+         <div className='addition_wrapper'> 
+            <span className='mr10 font12 cursor info_color mb10' onClick={visitorLogin}>
+                {!isRegister&&<span>随便<SvgIcon icon='walk'  size={18}  /> 随便</span>}
+                {isRegister&&<span>快速<SvgIcon icon='lightning'  size={18}  />填充</span>}
+                 </span>
+              <span className='font12 cursor info_color' onClick={()=>{setIsRegister(!isRegister)}}>
+                {!isRegister&&<span>立即<SvgIcon icon='smile'  size={18}  /> 注册</span>}
+                {isRegister&&<span>返回<SvgIcon icon='back'  size={18}  /> 登录</span>}
+            </span>
          </div>
         
          </div>

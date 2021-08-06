@@ -1,0 +1,96 @@
+.center_wrapper {
+    background: #f0f2f5;
+    .left_box {
+        flex: 1;
+        height: 100%;
+        min-width: 600px;
+
+        .general_box {
+            height: 180px;
+            width: 100%;
+            margin-bottom: 20px;
+            background: #fff;
+            padding: 40px 120px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-column-gap:20px;
+            .title{
+                color:#777777;
+            }
+            .content{
+                font-size: 24px;
+                font-weight: 600;
+            }
+        }
+        .type_box{
+            width: 100%;
+            background: #fff;
+            cursor: pointer;
+            // height: 200px;
+            overflow-y: auto;
+            .type_item{
+                position: relative;
+                width: 100%;
+                height: 70px;
+                // box-shadow: 4px -3px 14px 2px #e4e0e0;
+                padding: 20px 40px;
+                border-bottom: 1px solid #f0eeee;
+                div{
+                    width: 200px;
+                }
+            }
+            .type_item:hover{
+                // box-shadow: 4px -3px 14px 2px #e4e0e0;
+            }
+        }
+        .statistics_box{
+            width: 100%;
+            height: 500px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            column-gap:20px;
+            .lineBox_wrapper{
+                position: relative;
+                .control_row{
+                    position: absolute;
+                    top: 30px;
+                    right: 30px;
+                    z-index: 10;
+                }
+            }
+            #pieBox{
+                width: 480px;
+                height: 500px;
+            }
+            #lineBox{
+                width: 950px;
+                height: 450px;
+                position: relative;
+          
+            }
+            div{
+                background: #fff;
+            }
+        }
+
+    }
+
+    .user_box {
+        position: relative;
+        width: 20%;
+        min-width: 260px;
+        margin-left: 20px;
+        background: #fff;
+        padding: 20px;
+
+        .user_edit {
+            position: absolute;
+            right: 20px;
+            top: 24px;
+            z-index: 10;
+            cursor: pointer;
+        }
+    }
+
+}

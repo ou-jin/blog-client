@@ -5,12 +5,13 @@ import {
     FrownTwoTone
 } from '@ant-design/icons';
 import { useHistory } from "react-router";
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect ,useState } from 'react'
 const { SubMenu } = Menu;
 import Icon from '@ant-design/icons';
 import AnimalSvg from '../../assets/sprite/animal.svg'
 import { connect } from 'react-redux'
  function SideMeau(props) {
+    let [type,setType] = useState([])
     
     const history = useHistory();
     
@@ -23,13 +24,15 @@ import { connect } from 'react-redux'
         history.push('/main/' + pagePath)
     }
 
-    const openMenu = () => {
+    const openMenu = (e) => {
         console.log('openMenu')
-        event.preventDefault()
+        e.preventDefault()
     }
     
     useEffect(() => {
-        console.log(props)
+        const user = localStorage.getItem('user')
+        if(!user)return
+        setType(JSON.parse(user).type.split(','))
     }, []);
 
     return <div>
@@ -37,15 +40,13 @@ import { connect } from 'react-redux'
             {/* <FrownTwoTone /> */}
             <Icon style={{ fontSize: '26px'}} component={AnimalSvg} />
         </div>
-        <Menu onClick={herf} mode="inline"  >
-            <SubMenu title="blog" key='article' icon={<FileWordOutlined />} onContextMenu={openMenu}    >
-                <Menu.Item key='react'>React</Menu.Item>
-                <Menu.Item key='vue'>Vue</Menu.Item>
-                {/* <SubMenu title="">
-                    <Menu.Item>子菜单项</Menu.Item>
-                </SubMenu> */}
+        <Menu onClick={herf} mode="inline" defaultOpenKeys={['article']} >
+            <SubMenu title="分类" key='article' icon={<FileWordOutlined />} onContextMenu={openMenu}>
+                {type.map(v=><Menu.Item key={v}>{v}</Menu.Item>)}
+                {/* <Menu.Item key='react'>React</Menu.Item>
+                <Menu.Item key='vue'>Vue</Menu.Item> */}
             </SubMenu>
-            <Menu.Item key='statistics' icon={<LineChartOutlined />} >page2</Menu.Item>
+            <Menu.Item key='center' icon={<LineChartOutlined />} >个人中心</Menu.Item>
         </Menu>
     </div>
 }

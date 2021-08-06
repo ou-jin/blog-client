@@ -8,7 +8,7 @@ import axios from "axios";
 import { getArticleByUid ,uuid} from "../../config/common/fcn";
 import { connect } from "react-redux";
 const mdParser = new MarkdownIt();
-const uploadUrl = "http://106.55.160.96";
+const uploadUrl = process.env.UPLOAD_ADRESS;
 const port = "8010";
 import SubmitBox from "./submitBox";
 import "highlight.js/styles/github.css";
@@ -26,29 +26,27 @@ class Write extends React.Component {
       this.setState({ submitVisible: true });
     };
     this.submit =async ()=>{
-        console.log('submit')
-        console.log('submitBoxRef',this.submitBoxRef)
         const {selected,category,submitType} = this.submitBoxRef.current.state
         const {title,text} = this.state
-        const uid = uuid()
+        const uid = uuid();
         // 提交md文件
         const file = new File([text],(uid+'.md'))
-        console.log(file)
         const fileFrom = new FormData()
         fileFrom.append("file", file);
-        fileFrom.append("path", './md');
-        const d = await axios.post(uploadUrl + ":" + port + "/upload", fileFrom);
-        if (d.data != 200) return;
+        fileFrom.append("path", '/md');
+        const d = await axios.post(uploadUrl  + "/upload", fileFrom);
+        if (d.data.code != 200) return;
         const resParams = {
           submitType:submitType,
           category:category,
-          type:selected.join(),
+          type:selected.length?selected:['未分类'],
           title:title,
-          uid:uid
+          uid:uid,
         }
         let res = await api.articleAdd({data:resParams})
         if(!res)return
         message.success('发布成功')
+        this.setState({submitVisible:false})
 
 
     }

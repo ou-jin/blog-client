@@ -11,10 +11,11 @@ import Article from '../article/article.js'
 import Write from '../write/write';
 import Index from '../index/index'
 import Read from '../read/read';
+import Center from '../center/center'
  
 
 export default function Main() {
-    return <Layout>
+    return <Layout  >
         <Sider theme='light'><SideMeau /></Sider>
         <Layout>
             <Header>
@@ -24,6 +25,7 @@ export default function Main() {
                 <Route path="/main/article"   component={Article}></Route>
                 <Route path="/main/write"   component={Write}></Route>
                 <Route path="/main/read"   component={Read}></Route>
+                <Route path="/main/center"   component={Center}></Route>
                 <Route path='/'  component={Index} exact></Route>
                 
             </Content>

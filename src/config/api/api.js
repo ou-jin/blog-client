@@ -1,5 +1,9 @@
 let config = {
     login: { url: 'user/login', method: 'post' },
+    regist:{ url: 'user/regist', method: 'post' },
+    userSet:{ url: 'user/set', method: 'post' },
+    visitorLogin:{ url: 'user/visitorLogin', method: 'post' },
+
     articleGetList: { url: 'article/getList', method: 'get' },
     articleAdd: { url: 'article/add', method: 'post' },
     articleDelete: { url: 'article/delete', method: 'get' },

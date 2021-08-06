@@ -25,6 +25,9 @@ const sendApiInstance = (option) => {
       config.url = option.url + '?t=' + new Date().getTime()
       // token装载
       config.headers.Authorization = localStorage.getItem('JSON_TOKEN') || ''
+      // 用户标识
+      const user = localStorage.getItem('user')
+      if(user)config.headers.useId = JSON.parse(user).uid
       return config
     },
     (error) => {
