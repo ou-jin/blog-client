@@ -6,7 +6,7 @@ import api from '../../config/api';
 import { connect } from 'react-redux';
 import axios from 'axios'
 let blogType= ''
- class Article extends React.Component {
+class Article extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -24,6 +24,7 @@ let blogType= ''
             this.props.setArticle(article)
             props.history.push('./write')
         }
+        // 书写新博文
         this.writeNew = (e)=>{
             this.props.setArticle({})
             props.history.push('./write')
@@ -39,18 +40,17 @@ let blogType= ''
       
     }
     writeNewArticle(){
-        console.log('writeNewArticle',this.props)
         this.props.history.push('./read')
     }
     componentDidMount(){
         blogType = this.props.blogType
         this.getArticleList(this.props.blogType)
     }
+    // 类型变化刷新列表
     componentWillReceiveProps(newProps){
         blogType = newProps.blogType
         this.getArticleList(newProps.blogType)
     }
- 
     render() {
         return (
             <div className='content article_wrapper'>
@@ -71,7 +71,6 @@ const mapStateToProps = (state) => {
         blogType: state.global.currentBlogType
     }
   }
-// const mapDispatchToProps = (dispatch)=>{setArticle:(v)=>dispatch({type:'SET_ARTICLE',value:v}) }
 
 const mapDispatchToProps  = (dispatch, ownProps) => {
     return  {

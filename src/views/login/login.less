@@ -1,4 +1,10 @@
 .login_wrapper {
+    position: relative;
+    .screen_wrapper{
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
     .left_img {
         height: 100%;
         width: 70%;
@@ -29,15 +35,20 @@
     }
 
     .login_box {
-        height: 100%;
-        width: 30%;
-        position: relative;
+        // height: 100%;
+        // width: 30%;
+        position: absolute;
+        right: 10%;
+        top: 50%;
+        transform: translate(0,-50%);
+        background: transparent;
         label {
             width: 60px;
         }
         .icon_wrapper {
             margin-bottom: 85px;
-            font-size: 45px;
+            font-size: 18px;
+            color: #fff;
         }
         .ant-input {
             width: 300px;
@@ -49,8 +60,31 @@
             margin-top: 30px;
             height: 40px;
         }
+     
+        .ant-input-affix-wrapper{
+            // background: transparent;
+            border:none;
+            border-bottom:1px dashed gainsboro;
+            input{
+                // background: transparent;
+                // color: #fff;
+            }
+            input:hover{
+                // background: transparent;
+            }
+        }
+        .ant-input-affix-wrapper:hover{
+            background: transparent;
+        }
+        .ant-input-affix-wrapper-focused{
+            box-shadow: none;
+        }
         .login-form-button{
             border-radius: 4px;
+            margin-top: 40px;
+            color: gainsboro;
+            background: transparent;
+            border:1px dashed gainsboro;
         }
     }
  
@@ -70,6 +104,22 @@
         100% {
             transform: rotate(55deg);
         }
+    }
+    .opacity_show{
+        @keyframes opacity {
+            0%{
+                filter: blur(100px);
+            }
+            100%{
+                filter: blur(0px);
+            }
+        }
+        animation-name: opacity;
+        animation-duration: 1s;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: both;
+        animation-iteration-count: 1;
+        animation-direction: alternate;
     }
 
     .fall_down {

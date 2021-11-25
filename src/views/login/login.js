@@ -10,12 +10,14 @@ import { connect, useStore } from 'react-redux'
 import {uuid} from '../../config/common/fcn'
 import LoginForm from './LoginForm'
 import RegisterForm from './RegisterForm.js';
+import Screen from './Screen.js';
 function Login(props) {
    const history = useHistory()
    const [user] = useState({
       account:'',
       passWord:''
-   })
+   });
+   const [loginBoxVisible,setLoginBoxVisible] = useState(false)
    const [register,setRegister] = useState({
       account:'',
       name:'',
@@ -33,13 +35,16 @@ function Login(props) {
       let d = await api.login({data:values})
       setLoginClick(false)
       if(!d)return
+      // 缓存用户信息
       props.setStoreUser(d.data)
+      // 缓存用户文章类别信息
+      props.setType(d.data.t)
+      // 跳转主页
       history.push('/main/center')
    };
    // 注册提交
    const registerSub = async (val)=>{
       const params = {...val}
-      console.log(params)
       let d = await api.regist({data:params})
       if(!d)return
       message.success(d.msg)
@@ -61,10 +66,16 @@ function Login(props) {
 
    return (
       <div className='content login_wrapper row-flex-start '>
-         <div className='left_img '>
+         {/* <Screen showLoginBox={()=>{setLoginBoxVisible(true)}} /> */}
+         <div className={'login_box'+' '+(loginBoxVisible&&'opacity_show')} >
+            {loginBoxVisible&& <LoginForm user={user}  login={(v)=>(login(v))} />}
+         </div>
+
+         {/* <div className='left_img '>
          <SvgIcon icon='jump' size={200} className='humen_position fall_down' /> 
          {Balloon}
-         </div>
+
+         </div> */}
          <div className='login_box column-center'>
          <SvgIcon icon='hippo' size={45} className={'icon_wrapper'+' '+(loginClick?'rotate':'')}></SvgIcon>
             {!isRegister&&<LoginForm user={user}  login={(v)=>(login(v))} />}
@@ -80,19 +91,20 @@ function Login(props) {
                 {isRegister&&<span>返回<SvgIcon icon='back'  size={18}  /> 登录</span>}
             </span>
          </div>
-        
          </div>
       </div>
    );
 }
 const mapStateToProps = (state) => {
    return {
-       user: state.user
+       user: state.user,
+       type: global.artType
    }
  }
  const mapDispatchToProps  = (dispatch, ownProps) => {
    return  {
-      setStoreUser :(v)=>dispatch({type:'SET_USER',value:v})
+      setStoreUser :(v)=>dispatch({type:'SET_USER',value:v}),
+      setType :(v)=>dispatch({type:'SET_ARTTYPE',value:v}),
    }
  }
  

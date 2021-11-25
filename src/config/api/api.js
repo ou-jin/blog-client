@@ -3,6 +3,8 @@ let config = {
     regist:{ url: 'user/regist', method: 'post' },
     userSet:{ url: 'user/set', method: 'post' },
     visitorLogin:{ url: 'user/visitorLogin', method: 'post' },
+    delUserType:{ url: 'user/delUserType', method: 'get' },
+    getUserArticleType:{ url: 'user/getUserArticleType', method: 'get' },
 
     articleGetList: { url: 'article/getList', method: 'get' },
     articleAdd: { url: 'article/add', method: 'post' },

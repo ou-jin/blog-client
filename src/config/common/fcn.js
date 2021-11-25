@@ -33,7 +33,21 @@ export const uuid = (len = 32, radix = 12) => {
 }
 // 根据uid获取文章
 export const getArticleByUid = async (uid) => {
-    const url = fileServer + 'md/' + uid + '.md'
+    const url = fileServer + '/file/md/' + uid + '.md'
     let d = await axios.get(url)
     return d.data
 }
+// 防抖
+export const debounce = (callBack,interval=300)=>{
+  let timer = null;
+  return function(){
+    let args = arguments
+    if(timer){
+      clearTimeout(timer);
+      timer = null
+    }
+    timer = setTimeout(()=>{callBack.call(this,...args);timer=null},interval)
+  }
+}
+
+export const rangeRandom = (max, min) => Math.floor(Math.random() * (max - min + 1) + min);

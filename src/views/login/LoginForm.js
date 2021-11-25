@@ -5,6 +5,7 @@ export default (props)=>{
     return <Form
     name="normal_login"
     className="login-form"
+    autoComplete = "off"
     onFinish={props.login}>
     <Form.Item
        name="account"
@@ -27,7 +28,7 @@ export default (props)=>{
        />
     </Form.Item>
     <Form.Item>
-       <Button type="primary" htmlType="submit" className="login-form-button">
+       <Button   ghost htmlType="submit" className="login-form-button">
           登录
        </Button>
     </Form.Item>

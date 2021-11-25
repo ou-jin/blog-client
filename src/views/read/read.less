@@ -3,6 +3,7 @@
 
     .main_content {
         // height: 100%;
+        position: relative;
         max-width: 960px;
         min-width: 760px;
         margin: auto;
@@ -17,9 +18,21 @@
             word-break: break-all;
             margin-bottom: 40px;
         }
-
         .content_box {
             height: calc(100% - 85px);
+        }
+    }
+    .operate_banner{
+        position: absolute;
+        top: 0px;
+        right: -100px;
+        .item{
+            background: #fff;
+            border-radius: 50%;
+            height: 60px;
+            width: 60px;
+            cursor: pointer;
+            margin-bottom: 20px;
         }
     }
 }

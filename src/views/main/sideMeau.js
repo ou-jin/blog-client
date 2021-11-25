@@ -10,19 +10,21 @@ const { SubMenu } = Menu;
 import Icon from '@ant-design/icons';
 import AnimalSvg from '../../assets/sprite/animal.svg'
 import { connect } from 'react-redux'
+import api from "../../config/api";
  function SideMeau(props) {
-    let [type,setType] = useState([])
-    
     const history = useHistory();
     
     const herf = (url) => {
         const {key,keyPath} = url;
+        console.log(url)
         const pagePath = keyPath[keyPath.length - 1]
         if(keyPath.length>1){
-            props.setCurrentBlodType(key)
+            // props.setCurrentBlodType(key)
+            localStorage.setItem('typeId',key)
         }
         history.push('/main/' + pagePath)
     }
+  
 
     const openMenu = (e) => {
         console.log('openMenu')
@@ -30,9 +32,7 @@ import { connect } from 'react-redux'
     }
     
     useEffect(() => {
-        const user = localStorage.getItem('user')
-        if(!user)return
-        setType(JSON.parse(user).type.split(','))
+        console.log(props.type)
     }, []);
 
     return <div>
@@ -41,8 +41,9 @@ import { connect } from 'react-redux'
             <Icon style={{ fontSize: '26px'}} component={AnimalSvg} />
         </div>
         <Menu onClick={herf} mode="inline" defaultOpenKeys={['article']} >
+        <Menu.Item key='' icon={<LineChartOutlined />} >主页</Menu.Item>
             <SubMenu title="分类" key='article' icon={<FileWordOutlined />} onContextMenu={openMenu}>
-                {type.map(v=><Menu.Item key={v}>{v}</Menu.Item>)}
+                {props.type.map((v,i)=><Menu.Item key={i.id} >{v.name}</Menu.Item>)}
                 {/* <Menu.Item key='react'>React</Menu.Item>
                 <Menu.Item key='vue'>Vue</Menu.Item> */}
             </SubMenu>
@@ -52,12 +53,12 @@ import { connect } from 'react-redux'
 }
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        type: state.global.artType
     }
   }
-const mapDispatchToProps  = (dispatch, ownProps) => {
+const mapDispatchToProps  = (dispatch) => {
     return  {
-       setCurrentBlodType :(v)=>dispatch({type:'SET_CURRENTBLODTYPE',value:v})
+       setArtType :(v)=>dispatch({type:'SET_ARTTYPE',value:v})
     }
   }
-export default connect(null,mapDispatchToProps)(SideMeau)
+export default connect(mapStateToProps,mapDispatchToProps)(SideMeau)

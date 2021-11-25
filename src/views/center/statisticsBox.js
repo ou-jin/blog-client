@@ -1,4 +1,4 @@
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 // 引入 echarts 核心模块，核心模块提供了 echarts 使用必须要的接口。
 import * as echarts from "echarts/core";
 // 引入柱状图图表，图表后缀都为 Chart
@@ -73,10 +73,10 @@ const Lineoption = {
   yAxis: {
     type: "value",
     splitLine: {
-        show: false //去掉折线图中的横线
-    }
+      show: false, //去掉折线图中的横线
+    },
   },
- 
+
   series: [
     {
       name: "邮件营销",
@@ -118,32 +118,76 @@ const Lineoption = {
 export default (props) => {
   const [value, setValue] = useState(1);
 
+  const [lineWidth, setLineWidth] = useState();
+
+  const [pieWidth, setPieWidth] = useState();
+
+  let [pieChart, setPieChart] = useState();
+
+  let [lineChart, setLineChart] = useState();
+
   const onChange = (e) => {
     console.log("radio checked", e.target.value);
     setValue(e.target.value);
   };
-  useEffect(() => {
-    const pieChart = echarts.init(document.getElementById("pieBox"));
-    const lineChart = echarts.init(document.getElementById("lineBox"));
+
+  const setChart = () => {
+    if (!pieChart || !lineChart) return;
     pieChart.setOption(pieOption);
     lineChart.setOption(Lineoption);
+  };
+
+  const chartSize = ()=>{
+    const dom = document.getElementById("statisticsBox");
+    if (!dom) return;
+    const boxWidth = dom.offsetWidth - 20;
+    console.log('boxWidth',boxWidth)
+    setLineWidth(boxWidth * 0.66 - 40);
+    setPieWidth(boxWidth * 0.33);
+  }
+
+  useEffect(() => {
+    setPieChart(echarts.init(document.getElementById("pieBox")))
+    setLineChart(echarts.init(document.getElementById("lineBox")))
+    // pieChart = 
+    // lineChart = echarts.init(document.getElementById("lineBox"));
+    window.addEventListener("resize", () => {
+        // setTimeout(()=>{ chartSize()},200)
+        chartSize()
+    });
   }, []);
+  
+  // 宽度改变后重置图标宽度
+  useEffect(() => {
+    if (!pieChart || !lineChart) return;
+    pieChart.resize();
+    lineChart.resize();
+  }, [pieWidth, lineWidth]);
+
+  useEffect(() => {
+    chartSize()
+    setChart()
+  }, [ pieChart, lineChart]);
+
   return (
-    <div className="statistics_box">
+    <div className="statistics_box " id='statisticsBox'>
       <div className="row-center lineBox_wrapper">
-      <div className="control_row">
-            <Radio.Group onChange={onChange} value={value} optionType="button" buttonStyle="solid">
-              <Radio value={1}>月</Radio>
-              <Radio value={2}>周</Radio>
-              <Radio value={3}>日</Radio>
-            </Radio.Group>
-          </div>
-        <div id="lineBox">
-       
+        <div className="control_row">
+          <Radio.Group
+            onChange={onChange}
+            value={value}
+            optionType="button"
+            buttonStyle="solid"
+          >
+            <Radio value={1}>月</Radio>
+            <Radio value={2}>周</Radio>
+            <Radio value={3}>日</Radio>
+          </Radio.Group>
         </div>
+        <div id="lineBox" style={{width:lineWidth}} />
       </div>
       <div className="row-center">
-        <div id="pieBox"></div>
+        <div id="pieBox" style={{width:pieWidth}}></div>
       </div>
     </div>
   );

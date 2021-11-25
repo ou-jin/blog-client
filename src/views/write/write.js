@@ -21,14 +21,19 @@ class Write extends React.Component {
       title: "",
       submitVisible: false,
     };
+    // 是否是编辑状态
+    this.isEdit = false,
+    // 提交框组件
     this.submitBoxRef =  React.createRef();
+    // 打开提交框
     this.openSubmitBox = () => {
       this.setState({ submitVisible: true });
     };
+    // 提交
     this.submit =async ()=>{
-        const {selected,category,submitType} = this.submitBoxRef.current.state
-        const {title,text} = this.state
-        const uid = uuid();
+        const {selected, category, submitType} = this.submitBoxRef.current.state;
+        const {title,text} = this.state;
+        const uid = this.isEdit?article.uid: uuid();
         // 提交md文件
         const file = new File([text],(uid+'.md'))
         const fileFrom = new FormData()
@@ -42,17 +47,21 @@ class Write extends React.Component {
           type:selected.length?selected:['未分类'],
           title:title,
           uid:uid,
+          isEdit:this.isEdit
         }
         let res = await api.articleAdd({data:resParams})
         if(!res)return
         message.success('发布成功')
         this.setState({submitVisible:false})
-
+        // 更新文章类别
+        props.setUser({type:res.data.type})
 
     }
+    // 如果全局state中存储得有当前文章，则进行编辑
     this.init = async () => {
-      console.log(props.article);
       if (!props.article || !props.article.uid) return;
+      // 打开编辑模式
+      this.isEdit = true;
       let d = await getArticleByUid(props.article.uid);
       if (!d) return;
       this.setState({ title: props.article.title });
@@ -123,4 +132,9 @@ const mapStateToProps = (state) => {
     article: state.global.currentArticle,
   };
 };
-export default connect(mapStateToProps)(Write);
+const mapDispatchToProps  = (dispatch) => {
+  return  {
+     setUser :(v)=>dispatch({type:'SET_USER',value:v})
+  }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(Write);

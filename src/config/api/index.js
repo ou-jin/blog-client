@@ -39,7 +39,7 @@ const sendApiInstance = (option) => {
       // 将接口返回的token更新到本地
       if (response.data.token) localStorage.setItem('JSON_TOKEN', response.data.token)
     //   return Promise.resolve(response.data)
-      if (response.data && response.data.status === 200) {
+      if (response.data && response.data.code === 200) {
         return Promise.resolve(response.data)
       } else {
         // ElMessage.error(response.data.msg)
@@ -48,7 +48,7 @@ const sendApiInstance = (option) => {
     },
     (error) => {
       console.log('报错内容返回值', error.response, error.message)
-      if ((error.response && error.response.status == 401) || error.message.indexOf('timeout') > -1) {
+      if ((error.response && error.response.code == 401) || error.message.indexOf('timeout') > -1) {
         // ElMessage({
         //   message: '登录过期请重新登录',
         //   type: 'error',
